@@ -1,0 +1,140 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ object.name }} - Recipe Details</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background-color: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+        }
+
+        .recipe-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            color: #1a1a1a;
+            margin-bottom: 1rem;
+        }
+
+        .recipe-image {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+            border-radius: 12px;
+            margin: 2rem auto;
+            display: block;
+            object-fit: cover;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .recipe-info {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .info-item {
+            display: grid;
+            gap: 0.5rem;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #059669;
+            font-size: 1.1rem;
+        }
+
+        .info-content {
+            color: #4a5568;
+            line-height: 1.6;
+            font-size: 1.1rem;
+        }
+
+        .back-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            color: white;
+            background-color: #059669;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: background-color 0.3s ease;
+            margin-top: 2rem;
+        }
+
+        .back-button:hover {
+            background-color: #047857;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            .recipe-image {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="recipe-header">
+            <h2>{{ object.name }}</h2>
+        </div>
+
+        <img src="{{ object.pic.url }}" alt="{{ object.name }}" class="recipe-image">
+
+        <div class="recipe-info">
+            <div class="info-item">
+                <span class="info-label">Ingredients</span>
+                <span class="info-content">{{ object.ingredients }}</span>
+            </div>
+
+            <div class="info-item">
+                <span class="info-label">Cooking Time</span>
+                <span class="info-content">{{ object.cooking_time }} minutes</span>
+            </div>
+
+            <div class="info-item">
+                <span class="info-label">Difficulty</span>
+                <span class="info-content">{{ object.difficulty }}</span>
+            </div>
+        </div>
+
+        <a href="/recipes/list/" class="back-button">Back to Recipes</a>
+    </div>
+</body>
+</html>

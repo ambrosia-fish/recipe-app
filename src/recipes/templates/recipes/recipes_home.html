@@ -1,12 +1,99 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome to Recipes!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background-color: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #1a1a1a;
+            margin-bottom: 1.5rem;
+        }
+
+        p {
+            font-size: 1.25rem;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        .image-container {
+            margin: 2rem 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            color: white;
+            background-color: #059669;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #047857;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            p {
+                font-size: 1.1rem;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to Recipes!</h1>
-    <p>Explore our collection of dishes and find your next great meal!</p>
+    <div class="container">
+        <h1>Welcome to Recipes!</h1>
+        <p>Explore our collection of dishes and find your next great meal!</p>
+        <div class="image-container">
+            <img src="{% static 'recipes/images/cover.jpg' %}" alt="Fresh cooking ingredients">
+        </div>
+        <a href="/recipes/list/" class="button">View Recipes</a>
+    </div>
 </body>
 </html>
