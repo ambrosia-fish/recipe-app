@@ -21,6 +21,12 @@
             margin: 0 auto;
         }
 
+        .top-nav {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 2rem;
+        }
+
         .recipe-header {
             max-width: 600px;
             margin-bottom: 2.5rem;
@@ -61,12 +67,12 @@
 
         .recipe-image {
             width: 100%;
-            max-width: 600px; /* Reduced from 1000px to match content width */
-            height: 400px; /* Fixed height for consistency */
-            object-fit: cover; /* Ensures image fills space without distortion */
-            margin: 2rem auto; /* Centers the image */
-            display: block; /* Helps with centering */
-            border-radius: 4px; /* Subtle rounding of corners */
+            max-width: 600px;
+            height: 400px;
+            object-fit: cover;
+            margin: 2rem auto;
+            display: block;
+            border-radius: 4px;
         }
 
         .recipe-container {
@@ -130,9 +136,31 @@
         .button.primary:hover {
             background: #c93522;
         }
+
+        .logout-button {
+            font-family: "nyt-franklin", arial, helvetica, sans-serif;
+            padding: 0.75rem 1.5rem;
+            font-size: 0.875rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            border: 1px solid #333;
+            background: white;
+            color: #333;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .logout-button:hover {
+            background: #333;
+            color: white;
+        }
     </style>
 </head>
 <body>
+    <div class="top-nav">
+        <a href="{% url 'logout' %}" class="logout-button">Logout</a>
+    </div>
     <article class="recipe-container">
         <header class="recipe-header">
             <h2>{{ object.name }}</h2>
