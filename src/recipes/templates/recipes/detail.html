@@ -11,130 +11,157 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            font-family: "nyt-cheltenham", georgia, "times new roman", times, serif;
         }
 
         body {
-            min-height: 100vh;
-            background-color: #f8f9fa;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            background-color: white;
             padding: 2rem;
-        }
-
-        .container {
-            max-width: 1000px;
-            width: 100%;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .recipe-header {
-            text-align: center;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid #f0f0f0;
+            max-width: 600px;
+            margin-bottom: 2.5rem;
         }
 
         h2 {
-            font-size: 2.5rem;
-            color: #1a1a1a;
+            font-size: 2.75rem;
+            line-height: 1.2;
             margin-bottom: 1rem;
+            font-weight: normal;
+        }
+
+        .meta-info {
+            border-bottom: 1px solid #e2e2e2;
+            padding-bottom: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .time-info {
+            margin-bottom: 1.5rem;
+        }
+
+        .time-label {
+            font-family: "nyt-franklin", arial, helvetica, sans-serif;
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: #333;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .time-value {
+            font-family: "nyt-franklin", arial, helvetica, sans-serif;
+            font-size: 0.875rem;
+            color: #666;
         }
 
         .recipe-image {
             width: 100%;
-            max-width: 500px;
-            height: auto;
-            border-radius: 12px;
-            margin: 2rem auto;
-            display: block;
-            object-fit: cover;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 600px; /* Reduced from 1000px to match content width */
+            height: 400px; /* Fixed height for consistency */
+            object-fit: cover; /* Ensures image fills space without distortion */
+            margin: 2rem auto; /* Centers the image */
+            display: block; /* Helps with centering */
+            border-radius: 4px; /* Subtle rounding of corners */
         }
 
-        .recipe-info {
-            display: grid;
-            gap: 1.5rem;
+        .recipe-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        .info-item {
-            display: grid;
-            gap: 0.5rem;
+        .recipe-header,
+        .recipe-content {
+            max-width: 600px;
+        }
+
+        .info-section {
+            margin-bottom: 2rem;
         }
 
         .info-label {
-            font-weight: 600;
-            color: #059669;
-            font-size: 1.1rem;
+            font-family: "nyt-franklin", arial, helvetica, sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
         }
 
         .info-content {
-            color: #4a5568;
+            font-size: 1.125rem;
             line-height: 1.6;
-            font-size: 1.1rem;
+            color: #333;
         }
 
-        .back-button {
-            display: inline-block;
-            padding: 1rem 2rem;
-            font-size: 1.1rem;
-            color: white;
-            background-color: #059669;
-            text-decoration: none;
-            border-radius: 6px;
-            transition: background-color 0.3s ease;
+        .action-buttons {
             margin-top: 2rem;
+            display: flex;
+            gap: 1rem;
         }
 
-        .back-button:hover {
-            background-color: #047857;
+        .button {
+            font-family: "nyt-franklin", arial, helvetica, sans-serif;
+            padding: 0.75rem 1.5rem;
+            font-size: 0.875rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            border: 1px solid #333;
+            background: white;
+            color: #333;
+            text-decoration: none;
+            transition: all 0.2s ease;
         }
 
-        @media (max-width: 768px) {
-            .container {
-                padding: 1rem;
-            }
+        .button:hover {
+            background: #333;
+            color: white;
+        }
 
-            h2 {
-                font-size: 2rem;
-            }
+        .button.primary {
+            background: #e33d26;
+            border-color: #e33d26;
+            color: white;
+        }
 
-            .recipe-image {
-                max-width: 100%;
-            }
+        .button.primary:hover {
+            background: #c93522;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="recipe-header">
+    <article class="recipe-container">
+        <header class="recipe-header">
             <h2>{{ object.name }}</h2>
-        </div>
+            
+            <div class="meta-info">
+                <div class="time-info">
+                    <span class="time-label">Total Time</span>
+                    <span class="time-value">{{ object.cooking_time }} minutes</span>
+                </div>
+                <div class="time-info">
+                    <span class="time-label">Difficulty</span>
+                    <span class="time-value">{{ object.difficulty }}</span>
+                </div>
+            </div>
+        </header>
 
         <img src="{{ object.pic.url }}" alt="{{ object.name }}" class="recipe-image">
 
-        <div class="recipe-info">
-            <div class="info-item">
-                <span class="info-label">Ingredients</span>
-                <span class="info-content">{{ object.ingredients }}</span>
+        <div class="recipe-content">
+            <div class="info-section">
+                <h3 class="info-label">Ingredients</h3>
+                <div class="info-content">{{ object.ingredients }}</div>
             </div>
 
-            <div class="info-item">
-                <span class="info-label">Cooking Time</span>
-                <span class="info-content">{{ object.cooking_time }} minutes</span>
-            </div>
-
-            <div class="info-item">
-                <span class="info-label">Difficulty</span>
-                <span class="info-content">{{ object.difficulty }}</span>
+            <div class="action-buttons">
+                <a href="/recipes/list/" class="button">Back to Recipes</a>
+                <button class="button primary">Save Recipe</button>
             </div>
         </div>
-
-        <a href="/recipes/list/" class="back-button">Back to Recipes</a>
-    </div>
+    </article>
 </body>
 </html>

@@ -11,89 +11,120 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            font-family: "nyt-cheltenham", georgia, "times new roman", times, serif;
         }
 
         body {
+            background-color: white;
             min-height: 100vh;
-            background-color: #f8f9fa;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+        }
+
+        .header {
             padding: 2rem;
-        }
-
-        .container {
-            max-width: 1000px;
-            width: 100%;
             text-align: center;
+            border-bottom: 1px solid #e2e2e2;
+            margin-bottom: 2rem;
         }
 
-        h1 {
+        .logo {
             font-size: 2.5rem;
-            color: #1a1a1a;
-            margin-bottom: 1.5rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+            font-weight: normal;
         }
 
-        p {
-            font-size: 1.25rem;
+        .subtitle {
+            font-family: "nyt-franklin", arial, helvetica, sans-serif;
+            font-size: 1.125rem;
             color: #666;
             margin-bottom: 2rem;
         }
 
-        .image-container {
-            margin: 2rem 0;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        img {
+        .hero-image {
             width: 100%;
+            max-width: 1000px;
             height: auto;
-            display: block;
+            margin-bottom: 2rem;
             object-fit: cover;
         }
 
-        .button {
+        .cta-button {
             display: inline-block;
-            padding: 1rem 2rem;
-            font-size: 1.1rem;
-            color: white;
-            background-color: #059669;
+            font-family: "nyt-franklin", arial, helvetica, sans-serif;
+            padding: 0.75rem 1.5rem;
+            font-size: 0.875rem;
+            font-weight: 700;
+            text-transform: uppercase;
             text-decoration: none;
-            border-radius: 6px;
-            transition: background-color 0.3s ease;
+            background: #e33d26;
+            color: white;
+            border: none;
+            transition: background-color 0.2s ease;
         }
 
-        .button:hover {
-            background-color: #047857;
+        .cta-button:hover {
+            background: #c93522;
+        }
+
+        .featured-section {
+            max-width: 600px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+            text-align: center;
+        }
+
+        .featured-text {
+            font-family: "nyt-franklin", arial, helvetica, sans-serif;
+            font-size: 1.125rem;
+            line-height: 1.6;
+            color: #333;
         }
 
         @media (max-width: 768px) {
-            h1 {
+            .logo {
                 font-size: 2rem;
             }
 
-            p {
-                font-size: 1.1rem;
+            .subtitle {
+                font-size: 1rem;
             }
 
-            .container {
+            .hero-container {
+                padding: 0 1rem;
+            }
+
+            .featured-section {
                 padding: 0 1rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Welcome to Recipes!</h1>
-        <p>Explore our collection of dishes and find your next great meal!</p>
-        <div class="image-container">
-            <img src="{% static 'recipes/images/cover.jpg' %}" alt="Fresh cooking ingredients">
+    <header class="header">
+        <h1 class="logo">Recipes!</h1>
+        <p class="subtitle">Discover your next favorite dish</p>
+    </header>
+
+    <main class="hero-container">
+        <img src="{% static 'recipes/images/cover.jpg' %}" alt="Fresh cooking ingredients" class="hero-image">
+        
+        <div class="featured-section">
+            <p class="featured-text">
+                Explore our collection of dishes and find your next great meal. From quick weeknight dinners to impressive entertaining menus.
+            </p>
+            <div style="margin-top: 2rem;">
+                <a href="/recipes/list/" class="cta-button">Browse Recipes</a>
+            </div>
         </div>
-        <a href="/recipes/list/" class="button">View Recipes</a>
-    </div>
+    </main>
 </body>
 </html>
