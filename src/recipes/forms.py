@@ -53,7 +53,8 @@ class RecipesSearchForm(forms.Form):
                 'list': 'tickmarks'
             }
         ),
-        initial=360
+        initial=360,
+        label='Max Cooking Time'
     )
    
    def clean_recipe_ingredients(self):
