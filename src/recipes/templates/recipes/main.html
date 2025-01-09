@@ -240,7 +240,7 @@
 
         <div class="recipe-grid">
             {% for object in object_list %}
-            <a href="{% url 'recipes:detail' object.id %}" class="recipe-card">
+            <a href="{% url 'recipes:recipe_detail' object.id %}" class="recipe-card">
                 <img src="{{ object.pic.url }}" alt="{{ object.name }}" class="recipe-image">
                 <h2 class="recipe-title">{{ object.name }}</h2>
             </a>

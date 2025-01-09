@@ -15,13 +15,11 @@ def get_graph():
     return graph
 
 def get_ingredients_data(recipes):
-    # Split ingredients and count frequencies
     all_ingredients = []
     for recipe in recipes:
         ingredients = [i.strip() for i in recipe.ingredients.split(',')]
         all_ingredients.extend(ingredients)
     
-    # Get top 10 ingredients
     ingredient_counts = pd.Series(all_ingredients).value_counts().head(10)
     return ingredient_counts
 
@@ -68,7 +66,6 @@ def create_chart(chart_type, data, analysis_type):
             range_counts = ranges.value_counts()
             plt.pie(range_counts.values, labels=range_counts.index, autopct='%1.1f%%')
         elif chart_type == 'line':
-            # Sort cooking times for line chart
             times_series = pd.Series(cooking_times).sort_values()
             plt.plot(range(len(times_series)), times_series, marker='o')
             plt.xlabel('Recipe Index')

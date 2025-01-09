@@ -66,11 +66,11 @@ class RecipesSearchForm(forms.Form):
    
    def clean_recipe_title(self):
         title = self.cleaned_data.get('recipe_title', '')
-        if title:  # Only validate if a title was provided
+        if title: 
             if len(title.strip()) < 3:
                 raise forms.ValidationError("Recipe title must be at least 3 characters long")
             return title.strip()
-        return title  # Return empty string if no title provided
+        return title 
    
 class RecipeAnalyticsForm(forms.Form):
     analysis_type = forms.ChoiceField(
