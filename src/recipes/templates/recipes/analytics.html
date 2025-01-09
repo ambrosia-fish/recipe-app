@@ -37,6 +37,50 @@
             text-align: center;
         }
 
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .nav-button {
+            font-family: "nyt-franklin", arial, helvetica, sans-serif;
+            padding: 0.75rem 1.5rem;
+            font-size: 0.875rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            border: 1px solid #333;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            background: white;
+            color: #333;
+        }
+
+        .nav-button:hover {
+            background: #333;
+            color: white;
+        }
+
+        .logout-button {
+            font-family: "nyt-franklin", arial, helvetica, sans-serif;
+            padding: 0.75rem 1.5rem;
+            font-size: 0.875rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            border: 1px solid #333;
+            background: white;
+            color: #333;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .logout-button:hover {
+            background: #333;
+            color: white;
+        }
+
         .analytics-section {
             margin-bottom: 3rem;
             padding: 2rem;
@@ -102,55 +146,45 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        .nav-links {
-            margin-bottom: 2rem;
-        }
-
-        .nav-links a {
-            color: #333;
-            text-decoration: none;
-            margin-right: 1rem;
-            font-family: "nyt-franklin", arial, helvetica, sans-serif;
-        }
-
-        .nav-links a:hover {
-            text-decoration: underline;
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Recipe Analytics</h1>
+    <div class="header">
+        <h1>Recipes</h1>
+        <div class="nav-buttons">
+            <a href="{% url 'recipes:list' %}" class="nav-button">Search</a>
+            <a href="{% url 'recipes:analytics' %}" class="nav-button">Data</a>
+            <a href="{% url 'logout' %}" class="nav-button logout-button">Logout</a>
         </div>
+    </div>
 
-        <div class="nav-links">
-            <a href="{% url 'recipes:list' %}">← Back to Recipes</a>
-        </div>
-
-        <div class="analytics-section">
-            <form method="POST" class="analytics-form">
-                {% csrf_token %}
-                
-                <div class="form-group">
-                    {{ form.analysis_type.label_tag }}
-                    {{ form.analysis_type }}
-                </div>
-
-                <div class="form-group">
-                    {{ form.chart_type.label_tag }}
-                    {{ form.chart_type }}
-                </div>
-
-                <button type="submit" class="submit-button">Generate Chart</button>
-            </form>
-
-            {% if chart %}
-            <div class="chart-container">
-                <img src="data:image/png;base64, {{ chart|safe }}" alt="Recipe Analysis">
+    <div class="analytics-section">
+        <form method="POST" class="analytics-form">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                {{ form.analysis_type.label_tag }}
+                {{ form.analysis_type }}
             </div>
-            {% endif %}
+
+            <div class="form-group">
+                {{ form.chart_type.label_tag }}
+                {{ form.chart_type }}
+            </div>
+
+            <button type="submit" class="submit-button">Generate Chart</button>
+        </form>
+
+        {% if chart %}
+        <div class="chart-container">
+            <img src="data:image/png;base64, {{ chart|safe }}" alt="Recipe Analysis">
         </div>
+        {% endif %}
     </div>
 </body>
 </html>
