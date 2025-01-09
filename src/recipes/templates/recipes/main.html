@@ -37,6 +37,77 @@
             text-align: center;
         }
 
+        /* Search section styles */
+        .search-section {
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+        }
+
+        .search-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            font-family: "nyt-franklin", arial, helvetica, sans-serif;
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: "nyt-franklin", arial, helvetica, sans-serif;
+        }
+
+        .form-group input[type="range"] {
+            padding: 0;
+        }
+
+        .range-value {
+            text-align: center;
+            font-size: 0.875rem;
+            color: #666;
+        }
+
+        .search-button {
+            font-family: "nyt-franklin", arial, helvetica, sans-serif;
+            padding: 0.75rem 1.5rem;
+            font-size: 0.875rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            border: 1px solid #333;
+            background: #333;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: 1.5rem;
+        }
+
+        .search-button:hover {
+            background: #555;
+        }
+
+        .help-text {
+            font-size: 0.75rem;
+            color: #666;
+        }
+
+        /* Recipe grid styles */
         .recipe-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -104,14 +175,67 @@
             <h1>Recipes</h1>
             <a href="{% url 'logout' %}" class="logout-button">Logout</a>
         </div>
+
+        <div class="search-section">
+            <form method="POST" action="{% url 'recipes:list' %}" class="search-form">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    {{ form.recipe_title.label_tag }}
+                    {{ form.recipe_title }}
+                </div>
+                
+                <div class="form-group">
+                    {{ form.recipe_ingredients.label_tag }}
+                    {{ form.recipe_ingredients }}
+                    {% if form.recipe_ingredients.help_text %}
+                        <span class="help-text">{{ form.recipe_ingredients.help_text }}</span>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    {{ form.difficulty_level.label_tag }}
+                    {{ form.difficulty_level }}
+                </div>
+
+                <div class="form-group">
+                    {{ form.cooking_time.label_tag }}
+                    {{ form.cooking_time }}
+                    <span class="range-value">360 minutes</span>
+                </div>
+
+                <button type="submit" name="search" class="search-button">Search Recipes</button>
+            </form>
+        </div>
+
         <div class="recipe-grid">
             {% for object in object_list %}
-            <a href="/recipes/list/{{ object.id }}/" class="recipe-card">
+            <a href="{% url 'recipes:detail' object.id %}" class="recipe-card">
                 <img src="{{ object.pic.url }}" alt="{{ object.name }}" class="recipe-image">
                 <h2 class="recipe-title">{{ object.name }}</h2>
             </a>
             {% endfor %}
         </div>
     </div>
+
+    <script>
+        // Function to update range value display
+        function updateRangeDisplay(value) {
+            document.querySelector('.range-value').textContent = value + ' minutes';
+        }
+
+        // Get the range input element
+        const rangeInput = document.querySelector('input[type="range"]');
+        
+        // Set initial value on page load
+        window.addEventListener('load', function() {
+            updateRangeDisplay(rangeInput.value);
+        });
+
+        // Update when slider moves
+        rangeInput.addEventListener('input', function(e) {
+            updateRangeDisplay(e.target.value);
+        });
+    </script>
 </body>
 </html>
