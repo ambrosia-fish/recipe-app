@@ -1,11 +1,12 @@
 #src/recipes/views.py
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, TemplateView
 from .models import Recipe 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from .forms import RecipesSearchForm
+from .forms import RecipesSearchForm, RecipeAnalyticsForm
+from .utils import create_chart
 
 class RecipeListView(LoginRequiredMixin, ListView):
     model = Recipe
@@ -54,7 +55,32 @@ class RecipeListView(LoginRequiredMixin, ListView):
 
 class RecipeDetailView(LoginRequiredMixin, DetailView):                       
    model = Recipe                                        
-   template_name = 'recipes/detail.html'                 
+   template_name = 'recipes/detail.html'
+
+class RecipeAnalyticsView(LoginRequiredMixin, TemplateView):
+    template_name = 'recipes/analytics.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = RecipeAnalyticsForm(self.request.POST or None)
+        return context
+    
+    def post(self, request, *args, **kwargs):
+        form = RecipeAnalyticsForm(request.POST)
+        context = self.get_context_data()
+        
+        if form.is_valid():
+            chart_type = form.cleaned_data.get('chart_type')
+            analysis_type = form.cleaned_data.get('analysis_type')
+            
+            # Get all recipes
+            recipes = Recipe.objects.all()
+            
+            if recipes:
+                chart = create_chart(chart_type, recipes, analysis_type)
+                context['chart'] = chart
+        
+        return self.render_to_response(context)        
 
 @login_required
 def recipe_home(request):

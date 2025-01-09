@@ -1,0 +1,156 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Analytics</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "nyt-cheltenham", georgia, "times new roman", times, serif;
+        }
+
+        body {
+            background-color: white;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            font-size: 2.75rem;
+            font-weight: normal;
+            text-align: center;
+        }
+
+        .analytics-section {
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+        }
+
+        .analytics-form {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            font-family: "nyt-franklin", arial, helvetica, sans-serif;
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .form-group select {
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: "nyt-franklin", arial, helvetica, sans-serif;
+        }
+
+        .submit-button {
+            font-family: "nyt-franklin", arial, helvetica, sans-serif;
+            padding: 0.75rem 1.5rem;
+            font-size: 0.875rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            border: 1px solid #333;
+            background: #333;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: 1rem;
+        }
+
+        .submit-button:hover {
+            background: #555;
+        }
+
+        .chart-container {
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .chart-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-links {
+            margin-bottom: 2rem;
+        }
+
+        .nav-links a {
+            color: #333;
+            text-decoration: none;
+            margin-right: 1rem;
+            font-family: "nyt-franklin", arial, helvetica, sans-serif;
+        }
+
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Recipe Analytics</h1>
+        </div>
+
+        <div class="nav-links">
+            <a href="{% url 'recipes:list' %}">← Back to Recipes</a>
+        </div>
+
+        <div class="analytics-section">
+            <form method="POST" class="analytics-form">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    {{ form.analysis_type.label_tag }}
+                    {{ form.analysis_type }}
+                </div>
+
+                <div class="form-group">
+                    {{ form.chart_type.label_tag }}
+                    {{ form.chart_type }}
+                </div>
+
+                <button type="submit" class="submit-button">Generate Chart</button>
+            </form>
+
+            {% if chart %}
+            <div class="chart-container">
+                <img src="data:image/png;base64, {{ chart|safe }}" alt="Recipe Analysis">
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
