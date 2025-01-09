@@ -8,6 +8,18 @@ DIFFICULTY_CHOICES = (
    ('1', '1')
 )
 
+CHART_CHOICES = (          
+   ('bar', 'Bar Chart'),    
+   ('pie', 'Pie Chart'),
+   ('line', 'Line Chart')
+)
+
+ANALYSIS_CHOICES = (
+    ('ingredients', 'Most Common Ingredients'),
+    ('difficulty', 'Difficulty Distribution'),
+    ('cooking_time', 'Cooking Time Distribution')
+)
+
 class RecipesSearchForm(forms.Form): 
    recipe_title = forms.CharField(
         max_length=120,
@@ -58,3 +70,15 @@ class RecipesSearchForm(forms.Form):
                 raise forms.ValidationError("Recipe title must be at least 3 characters long")
             return title.strip()
         return title  # Return empty string if no title provided
+   
+class RecipeAnalyticsForm(forms.Form):
+    analysis_type = forms.ChoiceField(
+        choices=ANALYSIS_CHOICES,
+        required=True,
+        label='What would you like to analyze?'
+    )
+    chart_type = forms.ChoiceField(
+        choices=CHART_CHOICES,
+        required=True,
+        label='Select Chart Type'
+    )
