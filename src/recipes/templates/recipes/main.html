@@ -156,6 +156,33 @@
             background: #333;
             color: white;
         }
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .nav-button {
+            font-family: "nyt-franklin", arial, helvetica, sans-serif;
+            padding: 0.75rem 1.5rem;
+            font-size: 0.875rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            border: 1px solid #333;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            background: white;
+            color: #333;
+        }
+
+        .nav-button:hover {
+            background: #333;
+            color: white;
+        }
+
+
+        
 
         @media (max-width: 768px) {
             .recipe-grid {
@@ -170,10 +197,13 @@
     </style>
 </head>
 <body>
-    <div class="container">
         <div class="header">
             <h1>Recipes</h1>
-            <a href="{% url 'logout' %}" class="logout-button">Logout</a>
+            <div class="nav-buttons">
+                <a href="{% url 'recipes:list' %}" class="nav-button">Search</a>
+                <a href="{% url 'recipes:analytics' %}" class="nav-button">Data</a>
+                <a href="{% url 'logout' %}" class="nav-button logout-button">Logout</a>
+            </div>
         </div>
 
         <div class="search-section">
