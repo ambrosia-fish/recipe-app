@@ -32,18 +32,14 @@ class RecipeListView(LoginRequiredMixin, ListView):
                 cooking_time = form.cleaned_data['cooking_time']  # Will always have a value
 
 
-                # Apply difficulty filter
                 if difficulty_level:
                     queryset = queryset.filter(difficulty__lte=difficulty_level)
                 
-                # Always apply cooking time filter (slider always has a value)
                 queryset = queryset.filter(cooking_time__lte=cooking_time)
                 
-                # Apply title filter if provided
                 if recipe_title:
                     queryset = queryset.filter(name__icontains=recipe_title)
                 
-                # Apply ingredients filter if provided
                 if recipe_ingredients:
                     ingredients_list = [ing.strip() for ing in recipe_ingredients.split(',') if ing.strip()]
                     ingredients_query = Q()
