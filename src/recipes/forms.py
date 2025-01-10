@@ -1,85 +1,73 @@
 from django import forms
 
-DIFFICULTY_CHOICES = (          
-   ('5', '5'),
-   ('4', '4'),
-   ('3', '3'),
-   ('2', '2'),
-   ('1', '1')
-)
+DIFFICULTY_CHOICES = (("5", "5"), ("4", "4"), ("3", "3"), ("2", "2"), ("1", "1"))
 
-CHART_CHOICES = (          
-   ('bar', 'Bar Chart'),    
-   ('pie', 'Pie Chart'),
-   ('line', 'Line Chart')
-)
+CHART_CHOICES = (("bar", "Bar Chart"), ("pie", "Pie Chart"), ("line", "Line Chart"))
 
 ANALYSIS_CHOICES = (
-    ('ingredients', 'Most Common Ingredients'),
-    ('difficulty', 'Difficulty Distribution'),
-    ('cooking_time', 'Cooking Time Distribution')
+    ("ingredients", "Most Common Ingredients"),
+    ("difficulty", "Difficulty Distribution"),
+    ("cooking_time", "Cooking Time Distribution"),
 )
 
-class RecipesSearchForm(forms.Form): 
-   recipe_title = forms.CharField(
+
+class RecipesSearchForm(forms.Form):
+    recipe_title = forms.CharField(
         max_length=120,
-        widget=forms.TextInput(attrs={
-            'placeholder': 'Enter recipe title'
-        }),
+        widget=forms.TextInput(attrs={"placeholder": "Enter recipe title"}),
         required=False,
     )
-   recipe_ingredients = forms.CharField(
+    recipe_ingredients = forms.CharField(
         max_length=300,
         required=False,
-        widget=forms.TextInput(attrs={
-            'placeholder': 'Enter ingredients separated by commas'
-        }),
-        help_text='Separate ingredients with commas (e.g., salt, pepper, olive oil)'
+        widget=forms.TextInput(
+            attrs={"placeholder": "Enter ingredients separated by commas"}
+        ),
+        help_text="Separate ingredients with commas (e.g., salt, pepper, olive oil)",
     )
-   difficulty_level = forms.ChoiceField(
-        choices=DIFFICULTY_CHOICES,
-        required=False,
-        label='Max Difficulty'
+    difficulty_level = forms.ChoiceField(
+        choices=DIFFICULTY_CHOICES, required=False, label="Max Difficulty"
     )
-   cooking_time = forms.IntegerField(
+    cooking_time = forms.IntegerField(
         min_value=0,
         max_value=360,
         widget=forms.NumberInput(
             attrs={
-                'type': 'range',
-                'step': '5',
-                'class': 'form-range',
-                'oninput': 'this.nextElementSibling.value = this.value + " minutes"',
-                'list': 'tickmarks'
+                "type": "range",
+                "step": "5",
+                "class": "form-range",
+                "oninput": 'this.nextElementSibling.value = this.value + " minutes"',
+                "list": "tickmarks",
             }
         ),
         initial=360,
-        label='Max Cooking Time'
+        label="Max Cooking Time",
     )
-   
-   def clean_recipe_ingredients(self):
-        ingredients = self.cleaned_data.get('recipe_ingredients', '')
+
+    def clean_recipe_ingredients(self):
+        ingredients = self.cleaned_data.get("recipe_ingredients", "")
         if ingredients:
-            ingredients_list = [ing.strip() for ing in ingredients.split(',') if ing.strip()]
-            return ','.join(ingredients_list)
+            ingredients_list = [
+                ing.strip() for ing in ingredients.split(",") if ing.strip()
+            ]
+            return ",".join(ingredients_list)
         return ingredients
-   
-   def clean_recipe_title(self):
-        title = self.cleaned_data.get('recipe_title', '')
-        if title: 
+
+    def clean_recipe_title(self):
+        title = self.cleaned_data.get("recipe_title", "")
+        if title:
             if len(title.strip()) < 3:
-                raise forms.ValidationError("Recipe title must be at least 3 characters long")
+                raise forms.ValidationError(
+                    "Recipe title must be at least 3 characters long"
+                )
             return title.strip()
-        return title 
-   
+        return title
+
+
 class RecipeAnalyticsForm(forms.Form):
     analysis_type = forms.ChoiceField(
-        choices=ANALYSIS_CHOICES,
-        required=True,
-        label='What would you like to analyze?'
+        choices=ANALYSIS_CHOICES, required=True, label="What would you like to analyze?"
     )
     chart_type = forms.ChoiceField(
-        choices=CHART_CHOICES,
-        required=True,
-        label='Select Chart Type'
+        choices=CHART_CHOICES, required=True, label="Select Chart Type"
     )
