@@ -6,134 +6,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome to Recipes!</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: "nyt-cheltenham", georgia, "times new roman", times, serif;
-        }
-
-        body {
-            background-color: white;
-            min-height: 100vh;
-        }
-
-        .header {
-            padding: 2rem;
-            text-align: center;
-            border-bottom: 1px solid #e2e2e2;
-            margin-bottom: 2rem;
-        }
-
-        .logo {
-            font-size: 2.5rem;
-            color: #333;
-            margin-bottom: 0.5rem;
-            font-weight: normal;
-        }
-
-        .subtitle {
-            font-family: "nyt-franklin", arial, helvetica, sans-serif;
-            font-size: 1.125rem;
-            color: #666;
-            margin-bottom: 2rem;
-        }
-
-        .hero-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .hero-image {
-            width: 100%;
-            max-width: 1000px;
-            height: auto;
-            margin-bottom: 2rem;
-            object-fit: cover;
-        }
-
-        .cta-button {
-            display: inline-block;
-            font-family: "nyt-franklin", arial, helvetica, sans-serif;
-            padding: 0.75rem 1.5rem;
-            font-size: 0.875rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            text-decoration: none;
-            background: #e33d26;
-            color: white;
-            border: none;
-            transition: background-color 0.2s ease;
-        }
-
-        .cta-button:hover {
-            background: #c93522;
-        }
-
-        .featured-section {
-            max-width: 600px;
-            margin: 3rem auto;
-            padding: 0 2rem;
-            text-align: center;
-        }
-
-        .featured-text {
-            font-family: "nyt-franklin", arial, helvetica, sans-serif;
-            font-size: 1.125rem;
-            line-height: 1.6;
-            color: #333;
-        }
-
-        .login-button {
-            position: absolute;
-            top: 2rem;
-            right: 2rem;
-            font-family: "nyt-franklin", arial, helvetica, sans-serif;
-            padding: 0.75rem 1.5rem;
-            font-size: 0.875rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            border: 1px solid #333;
-            background: white;
-            color: #333;
-            text-decoration: none;
-            transition: all 0.2s ease;
-        }
-
-        .login-button:hover {
-            background: #333;
-            color: white;
-        }
-
-        @media (max-width: 768px) {
-            .logo {
-                font-size: 2rem;
-            }
-
-            .subtitle {
-                font-size: 1rem;
-            }
-
-            .hero-container {
-                padding: 0 1rem;
-            }
-
-            .featured-section {
-                padding: 0 1rem;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
 </head>
 <body>
     <header class="header">
         <h1 class="logo">Recipes!</h1>
         <p class="subtitle">Discover your next favorite dish</p>
-        <a href ="{%url 'login' %}" class="login-button">  Login  </a>
+        <a href="{% url 'login' %}" class="login-button">Login</a>
     </header>
 
     <main class="hero-container">
@@ -143,9 +22,7 @@
             <p class="featured-text">
                 Explore our collection of dishes and find your next great meal. From quick weeknight dinners to impressive entertaining menus.
             </p>
-            <div style="margin-top: 2rem;">
-                <a href="/recipes/list/" class="cta-button">Browse Recipes</a>
-            </div>
+            <a href="{% url 'recipes:list' %}" class="cta-button">Browse Recipes</a>
         </div>
     </main>
 </body>

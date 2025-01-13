@@ -1,41 +1,11 @@
+{% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Logged Out - Recipe App</title>
-    <style>
-        .auth-container {
-            max-width: 400px;
-            margin: 60px auto;
-            padding: 20px;
-            font-family: "Georgia", serif;
-        }
-        h1 {
-            font-size: 32px;
-            font-weight: 300;
-            text-align: center;
-            margin-bottom: 30px;
-            border-bottom: 1px solid #e2e2e2;
-            padding-bottom: 20px;
-        }
-        .auth-form {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-        .btn {
-            background-color: #000;
-            color: white;
-            padding: 14px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 500;
-        }
-        .btn:hover {
-            background-color: #333;
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
 </head>
 <body>
     <div class="auth-container">
@@ -43,7 +13,7 @@
 
         <form action="{% url 'login' %}" method="GET" class="auth-form">
             {% csrf_token %}
-            <button type="submit" class="btn">Back to Login</button>
+            <button type="submit" class="submit-button">Back to Login</button>
         </form>
     </div>
 </body>
