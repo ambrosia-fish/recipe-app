@@ -1,195 +1,53 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ object.name }} - Recipe Details</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: "nyt-cheltenham", georgia, "times new roman", times, serif;
-        }
-
-        body {
-            background-color: white;
-            padding: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .top-nav {
-            display: flex;
-            justify-content: flex-end;
-            margin-bottom: 2rem;
-        }
-
-        .recipe-header {
-            max-width: 600px;
-            margin-bottom: 2.5rem;
-        }
-
-        h2 {
-            font-size: 2.75rem;
-            line-height: 1.2;
-            margin-bottom: 1rem;
-            font-weight: normal;
-        }
-
-        .meta-info {
-            border-bottom: 1px solid #e2e2e2;
-            padding-bottom: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .time-info {
-            margin-bottom: 1.5rem;
-        }
-
-        .time-label {
-            font-family: "nyt-franklin", arial, helvetica, sans-serif;
-            font-size: 0.875rem;
-            font-weight: 700;
-            color: #333;
-            text-transform: uppercase;
-            display: block;
-            margin-bottom: 0.5rem;
-        }
-
-        .time-value {
-            font-family: "nyt-franklin", arial, helvetica, sans-serif;
-            font-size: 0.875rem;
-            color: #666;
-        }
-
-        .recipe-image {
-            width: 100%;
-            max-width: 600px;
-            height: 400px;
-            object-fit: cover;
-            margin: 2rem auto;
-            display: block;
-            border-radius: 4px;
-        }
-
-        .recipe-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .recipe-header,
-        .recipe-content {
-            max-width: 600px;
-        }
-
-        .info-section {
-            margin-bottom: 2rem;
-        }
-
-        .info-label {
-            font-family: "nyt-franklin", arial, helvetica, sans-serif;
-            font-size: 1rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-
-        .info-content {
-            font-size: 1.125rem;
-            line-height: 1.6;
-            color: #333;
-        }
-
-        .action-buttons {
-            margin-top: 2rem;
-            display: flex;
-            gap: 1rem;
-        }
-
-        .button {
-            font-family: "nyt-franklin", arial, helvetica, sans-serif;
-            padding: 0.75rem 1.5rem;
-            font-size: 0.875rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            border: 1px solid #333;
-            background: white;
-            color: #333;
-            text-decoration: none;
-            transition: all 0.2s ease;
-        }
-
-        .button:hover {
-            background: #333;
-            color: white;
-        }
-
-        .button.primary {
-            background: #e33d26;
-            border-color: #e33d26;
-            color: white;
-        }
-
-        .button.primary:hover {
-            background: #c93522;
-        }
-
-        .logout-button {
-            font-family: "nyt-franklin", arial, helvetica, sans-serif;
-            padding: 0.75rem 1.5rem;
-            font-size: 0.875rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            border: 1px solid #333;
-            background: white;
-            color: #333;
-            text-decoration: none;
-            transition: all 0.2s ease;
-            cursor: pointer;
-        }
-
-        .logout-button:hover {
-            background: #333;
-            color: white;
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
 </head>
 <body>
-    <div class="top-nav">
-        <a href="{% url 'logout' %}" class="logout-button">Logout</a>
-    </div>
-    <article class="recipe-container">
-        <header class="recipe-header">
-            <h2>{{ object.name }}</h2>
-            
-            <div class="meta-info">
-                <div class="time-info">
-                    <span class="time-label">Total Time</span>
-                    <span class="time-value">{{ object.cooking_time }} minutes</span>
-                </div>
-                <div class="time-info">
-                    <span class="time-label">Difficulty</span>
-                    <span class="time-value">{{ object.difficulty }}</span>
-                </div>
-            </div>
-        </header>
-
-        <img src="{{ object.pic.url }}" alt="{{ object.name }}" class="recipe-image">
-
-        <div class="recipe-content">
-            <div class="info-section">
-                <h3 class="info-label">Ingredients</h3>
-                <div class="info-content">{{ object.ingredients }}</div>
-            </div>
-
-            <div class="action-buttons">
-                <a href="/recipes/list/" class="button">Back to Recipes</a>
-                <button class="button primary">Save Recipe</button>
+    <div class="container">
+        <div class="header">
+            <h1>Recipes</h1>
+            <div class="nav-buttons">
+                <a href="{% url 'recipes:list' %}" class="nav-button">Search</a>
+                <a href="{% url 'recipes:analytics' %}" class="nav-button">Data</a>
+                <a href="{% url 'logout' %}" class="nav-button logout-button">Logout</a>
             </div>
         </div>
-    </article>
+        
+        <article class="recipe-container">
+            <header class="recipe-header">
+                <h2>{{ object.name }}</h2>
+                
+                <div class="meta-info">
+                    <div class="time-info">
+                        <span class="time-label">Total Time</span>
+                        <span class="time-value">{{ object.cooking_time }} minutes</span>
+                    </div>
+                    <div class="time-info">
+                        <span class="time-label">Difficulty</span>
+                        <span class="time-value">{{ object.difficulty }}</span>
+                    </div>
+                </div>
+            </header>
+
+            <img src="{{ object.pic.url }}" alt="{{ object.name }}" class="recipe-image">
+
+            <div class="recipe-content">
+                <div class="info-section">
+                    <h3 class="info-label">Ingredients</h3>
+                    <div class="info-content">{{ object.ingredients }}</div>
+                </div>
+
+                <div class="action-buttons">
+                    <a href="{% url 'recipes:list' %}" class="button">Back to Recipes</a>
+                    <button class="button primary">Save Recipe</button>
+                </div>
+            </div>
+        </article>
+    </div>
 </body>
 </html>
