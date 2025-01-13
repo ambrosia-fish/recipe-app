@@ -414,3 +414,28 @@ h2 {
     color: #666;
     margin-bottom: 1.5rem;
 }
+
+/* Footer Styles */
+.footer {
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid #e2e2e2;
+}
+
+.about-me-button {
+    font-family: "nyt-franklin", arial, helvetica, sans-serif;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-decoration: none;
+    background: #333;
+    color: white;
+    border: none;
+    transition: background-color 0.2s ease;
+}
+
+.about-me-button:hover {
+    background: #555;
+}
