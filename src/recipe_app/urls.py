@@ -8,7 +8,6 @@ from .views import login_view, logout_view, success_view
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("recipes.urls")),
-    path("recipes/", include("recipes.urls")),
     path("login/", login_view, name="login"),
     path("logout/", logout_view, name="logout"),
     path("success/", success_view, name="success"),
