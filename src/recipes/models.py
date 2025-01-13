@@ -1,9 +1,12 @@
 # src/recipes/models.py
 from django.db import models
 from django.urls import reverse
+from django.contrib.auth.models import User
+
 
 
 class Recipe(models.Model):
+    saved_by = models.ManyToManyField(User, related_name='saved_recipes', blank=True)
     name = models.CharField(max_length=120)
     ingredients = models.TextField()
     cooking_time = models.IntegerField()

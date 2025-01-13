@@ -398,3 +398,19 @@ h2 {
     justify-content: center;
     margin-top: 2rem;
 }
+
+.empty-state {
+    text-align: center;
+    padding: 3rem;
+    background: #f9f9f9;
+    border-radius: 8px;
+    width: 100%;
+    grid-column: 1 / -1;
+}
+
+.empty-state p {
+    font-family: "nyt-franklin", arial, helvetica, sans-serif;
+    font-size: 1.125rem;
+    color: #666;
+    margin-bottom: 1.5rem;
+}

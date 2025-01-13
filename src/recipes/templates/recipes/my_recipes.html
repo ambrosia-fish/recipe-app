@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Saved Recipes</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>My Recipes</h1>
+            <div class="nav-buttons">
+                <a href="{% url 'recipes:list' %}" class="nav-button">Search</a>
+                <a href="{% url 'recipes:analytics' %}" class="nav-button">Data</a>
+                <a href="{% url 'logout' %}" class="nav-button logout-button">Logout</a>
+            </div>
+        </div>
+
+        <div class="recipe-grid">
+            {% for object in recipes %}
+            <a href="{% url 'recipes:recipe_detail' object.id %}" class="recipe-card">
+                <img src="{{ object.pic.url }}" alt="{{ object.name }}" class="recipe-image">
+                <h2 class="recipe-title">{{ object.name }}</h2>
+            </a>
+            {% empty %}
+            <div class="empty-state">
+                <p>You haven't saved any recipes yet.</p>
+                <a href="{% url 'recipes:list' %}" class="nav-button">Browse Recipes</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
