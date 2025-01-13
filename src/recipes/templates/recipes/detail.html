@@ -13,6 +13,7 @@
             <h1>Recipes</h1>
             <div class="nav-buttons">
                 <a href="{% url 'recipes:list' %}" class="nav-button">Search</a>
+                <a href="{% url 'recipes:my_recipes' %}" class="nav-button">My Recipes</a>
                 <a href="{% url 'recipes:analytics' %}" class="nav-button">Data</a>
                 <a href="{% url 'logout' %}" class="nav-button logout-button">Logout</a>
             </div>
@@ -44,10 +45,47 @@
 
                 <div class="action-buttons">
                     <a href="{% url 'recipes:list' %}" class="button">Back to Recipes</a>
-                    <button class="button primary">Save Recipe</button>
+                    <button 
+                        class="button primary save-recipe" 
+                        data-recipe-id="{{ object.id }}"
+                        data-saved="{% if object in request.user.saved_recipes.all %}true{% else %}false{% endif %}"
+                    >
+                        {% if object in request.user.saved_recipes.all %}
+                            Unsave Recipe
+                        {% else %}
+                            Save Recipe
+                        {% endif %}
+                    </button>
                 </div>
             </div>
         </article>
     </div>
+
+    <script>
+        document.querySelector('.save-recipe').addEventListener('click', async function(e) {
+            const button = e.target;
+            const recipeId = button.dataset.recipeId;
+            
+            try {
+                const response = await fetch(`/recipes/save-recipe/${recipeId}/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}',
+                    },
+                });
+                const data = await response.json();
+                
+                if (data.status === 'saved') {
+                    button.textContent = 'Unsave Recipe';
+                    button.dataset.saved = 'true';
+                } else {
+                    button.textContent = 'Save Recipe';
+                    button.dataset.saved = 'false';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+    </script>
 </body>
 </html>
