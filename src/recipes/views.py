@@ -88,10 +88,8 @@ class RecipeAnalyticsView(LoginRequiredMixin, TemplateView):
         return self.render_to_response(context)
 
 
-
 def recipe_home(request):
     return render(request, "recipes/recipes_home.html")
-
 
 
 @login_required
@@ -99,11 +97,12 @@ def save_recipe(request, recipe_id):
     recipe = Recipe.objects.get(id=recipe_id)
     if recipe in request.user.saved_recipes.all():
         request.user.saved_recipes.remove(recipe)
-        return JsonResponse({'status': 'removed'})
+        return JsonResponse({"status": "removed"})
     else:
         request.user.saved_recipes.add(recipe)
-        return JsonResponse({'status': 'saved'})
-    
+        return JsonResponse({"status": "saved"})
+
+
 def my_recipes(request):
     saved_recipes = request.user.saved_recipes.all()
-    return render(request, 'recipes/my_recipes.html', {'recipes': saved_recipes})
+    return render(request, "recipes/my_recipes.html", {"recipes": saved_recipes})
