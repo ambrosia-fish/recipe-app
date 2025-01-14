@@ -76,6 +76,7 @@
                     'X-CSRFToken': '{{ csrf_token }}',
                 },
             });
+            
                 const data = await response.json();
                 
                 if (data.status === 'saved') {
