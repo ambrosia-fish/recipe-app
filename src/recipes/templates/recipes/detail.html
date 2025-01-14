@@ -70,12 +70,13 @@
             const recipeId = button.dataset.recipeId;
             
             try {
-                const response = await fetch(`/recipes/save-recipe/${recipeId}/`, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRFToken': '{{ csrf_token }}',
-                    },
-                });
+                const response = await fetch(`/save-recipe/${recipeId}/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                },
+            });
+            // Test
                 const data = await response.json();
                 
                 if (data.status === 'saved') {
