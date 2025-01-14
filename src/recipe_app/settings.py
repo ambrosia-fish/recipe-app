@@ -57,7 +57,7 @@ ROOT_URLCONF = "recipe_app.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / "src" / "templates"],  # Update this path
+        "DIRS": [BASE_DIR / "src" / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -141,5 +141,3 @@ STATICFILES_FINDERS = [
 # Max upload size
 DATA_UPLOAD_MAX_MEMORY_SIZE = 5242880  # 5MB
 FILE_UPLOAD_MAX_MEMORY_SIZE = 5242880  # 5MB
-
-print(BASE_DIR / "templates")  # Add this temporarily to settings.py to verify path
