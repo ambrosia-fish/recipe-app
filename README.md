@@ -33,6 +33,7 @@ A Django-based web application for discovering, saving, and analyzing recipes. T
 - **Backend**: Django 4.2.17
 - **Database**: SQLite3
 - **Frontend**: HTML, CSS, JavaScript
+- **Cloud Storage**: Cloudinary # Added
 - **Data Visualization**: Matplotlib
 - **Image Handling**: Django ImageField
 - **Authentication**: Django built-in auth
@@ -53,10 +54,7 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 
 3. Install dependencies:
 ```bash
-pip install django
-pip install matplotlib
-pip install pandas
-pip install Pillow
+pip install requirements.txt
 ```
 
 4. Configure the environment:
