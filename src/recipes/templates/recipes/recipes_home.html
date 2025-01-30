@@ -5,12 +5,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to Recipes!</title>
+    <title>Welcome to Gamila!</title>
     <link rel="stylesheet" href="{% static 'styles.css' %}">
 </head>
 <body>
     <header class="header">
-        <h1 class="logo">Recipes!</h1>
+        <h1 class="logo">Gamila</h1>
         <a href="{% url 'login' %}" class="login-button">Login</a>
     </header>
 
@@ -19,7 +19,7 @@
         
         <div class="featured-section">
             <p class="featured-text">
-                Explore our collection of dishes and find your next great meal. From quick weeknight dinners to impressive entertaining menus.
+                From mind-blowing tagines to couscous that'll make you question everything you knew about comfort food, these are the real-deal recipes that have been causing food comas in my family for generations. No food-blog fluff, just straight-up Moroccan grandmother magic.
             </p>
             <a href="{% url 'recipes:list' %}" class="cta-button">Browse Recipes</a>
         </div>
