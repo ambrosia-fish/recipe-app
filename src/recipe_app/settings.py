@@ -80,11 +80,11 @@ WSGI_APPLICATION = "recipe_app.wsgi.application"
 # Database configuration
 DATABASES = {
     'default': dj_database_url.config(
-        default='sqlite:///' + str(BASE_DIR / 'db.sqlite3'),
-        conn_max_age=600,
-        conn_health_checks=True,
+        default=os.environ.get('DATABASE_URL'),
+        conn_max_age=600
     )
 }
+
 
 # Password validation, Internationalization, etc. remain the same as in your original file
 
