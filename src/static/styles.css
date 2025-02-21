@@ -1,27 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+:root {
+    --desert-sand: #E5B796;
+    --deep-sand: #C4976F;
+    --chefchaouen-blue: #4C7195;
+    --deep-blue: #2A4C70;
+    --terracotta: #B44C36;
+    --light-sand: #F5E6D3;
+    --dark-text: #2C1810;
+}
+
+@font-face {
+    font-family: 'Azqad';
+    src: url('./fonts/Azqad.ttf') format('truetype');
+}
+
 /* Base Styles */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "nyt-cheltenham", georgia, "times new roman", times, serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 body {
-    background-color: white;
+    background-color: var(--light-sand);
     padding: 2rem;
     min-height: 100vh;
+    color: var(--dark-text);
 }
 
 .container {
     max-width: 1200px;
     margin: 0 auto;
+    background-color: white;
+    border-radius: 8px;
+    padding: 2rem;
+    box-shadow: 0 2px 12px rgba(196, 151, 111, 0.15);
 }
 
 /* Typography */
 h1 {
+    font-family: 'Azqad', sans-serif;
     font-size: 2.75rem;
     font-weight: normal;
     text-align: center;
+    color: var(--terracotta);
 }
 
 h2 {
@@ -29,28 +53,30 @@ h2 {
     line-height: 1.2;
     margin-bottom: 1rem;
     font-weight: normal;
+    color: var(--deep-blue);
 }
 
 /* Home Page */
 .home-header {
     text-align: center;
     margin-bottom: 2rem;
-    border-bottom: 1px solid #e2e2e2;
+    border-bottom: 2px solid var(--desert-sand);
     padding-bottom: 2rem;
     position: relative;
 }
 
 .home-header .logo {
+    font-family: 'Azqad', sans-serif;
     font-size: 2.75rem;
     font-weight: normal;
-    color: #333;
+    color: var(--terracotta);
     margin-bottom: 0.5rem;
 }
 
 .home-header .subtitle {
-    font-family: "nyt-franklin", arial, helvetica, sans-serif;
-    font-size: 1.125rem;
-    color: #666;
+    font-family: 'Poppins', sans-serif;
+    font-size: .75rem;
+    color: var(--deep-blue);
 }
 
 .home-header .login-button {
@@ -59,12 +85,21 @@ h2 {
     right: 0;
 }
 
+.logo-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.logo-link:hover {
+    cursor: pointer;
+}
+
 /* Navigation Header */
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #e2e2e2;
+    border-bottom: 2px solid var(--desert-sand);
     margin-bottom: 2rem;
     padding-bottom: 2rem;
 }
@@ -76,21 +111,22 @@ h2 {
 }
 
 .nav-button, .login-button {
-    font-family: "nyt-franklin", arial, helvetica, sans-serif;
+    font-family: 'Poppins', sans-serif;
     padding: 0.75rem 1.5rem;
     font-size: 0.875rem;
     font-weight: 700;
     text-transform: uppercase;
-    border: 1px solid #333;
+    border: 1px solid var(--chefchaouen-blue);
     text-decoration: none;
     transition: all 0.2s ease;
     cursor: pointer;
-    background: white;
-    color: #333;
+    background: var(--chefchaouen-blue);
+    color: white;
+    border-radius: 4px
 }
 
 .nav-button:hover, .login-button:hover {
-    background: #333;
+    background: var(--deep-blue);
     color: white;
 }
 
@@ -103,19 +139,27 @@ h2 {
 }
 
 .form-group label {
-    font-family: "nyt-franklin", arial, helvetica, sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 0.875rem;
     font-weight: 700;
-    color: #333;
+    color: var(--dark-text);
 }
 
 .form-group input,
 .form-group select {
     padding: 0.75rem;
-    border: 1px solid #ddd;
+    border: 1px solid var(--desert-sand);
     border-radius: 4px;
-    font-family: "nyt-franklin", arial, helvetica, sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 1rem;
+    transition: all 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: var(--chefchaouen-blue);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(76, 113, 149, 0.1);
 }
 
 .form-group input[type="range"] {
@@ -124,50 +168,52 @@ h2 {
 
 .help-text {
     font-size: 0.75rem;
-    color: #666;
+    color: var(--deep-sand);
 }
 
 .range-value {
     text-align: center;
     font-size: 0.875rem;
-    color: #666;
+    color: var(--deep-sand);
 }
 
 /* Button Styles */
 .button, .search-button, .submit-button {
-    font-family: "nyt-franklin", arial, helvetica, sans-serif;
+    font-family: 'Poppins', sans-serif;
     padding: 0.75rem 1.5rem;
     font-size: 0.875rem;
     font-weight: 700;
     text-transform: uppercase;
     border: none;
     border-radius: 4px;
-    background: #333;
+    background: var(--chefchaouen-blue);
     color: white;
     cursor: pointer;
     transition: all 0.2s ease;
 }
 
 .button:hover, .search-button:hover, .submit-button:hover {
-    background: #555;
+    background: var(--deep-blue);
 }
 
 .button.primary {
-    background: #e33d26;
-    border-color: #e33d26;
+    background: var(--terracotta);
+    border-color: var(--terracotta);
     color: white;
 }
 
 .button.primary:hover {
-    background: #c93522;
+    background: var(--deep-sand);
 }
 
 /* Search Section */
 .search-section {
-    background-color: #f9f9f9;
+    background-color: white;
     border-radius: 8px;
     padding: 2rem;
     margin-bottom: 3rem;
+    border: 1px solid var(--desert-sand);
+    box-shadow: 0 2px 8px rgba(196, 151, 111, 0.1);
 }
 
 .search-form {
@@ -184,10 +230,12 @@ h2 {
 
 /* Analytics Section */
 .analytics-section {
-    background-color: #f9f9f9;
+    background-color: white;
     border-radius: 8px;
     padding: 2rem;
     margin-bottom: 3rem;
+    border: 1px solid var(--desert-sand);
+    box-shadow: 0 2px 8px rgba(196, 151, 111, 0.1);
 }
 
 .analytics-form {
@@ -213,7 +261,7 @@ h2 {
     max-width: 100%;
     height: auto;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px rgba(196, 151, 111, 0.1);
 }
 
 /* Recipe Grid */
@@ -227,10 +275,19 @@ h2 {
 .recipe-card {
     text-decoration: none;
     color: inherit;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(196, 151, 111, 0.1);
+    transition: transform 0.2s ease;
+}
+
+.recipe-card:hover {
+    transform: translateY(-4px);
 }
 
 .recipe-card:hover .recipe-title {
-    color: #e33d26;
+    color: var(--terracotta);
 }
 
 .recipe-card img {
@@ -242,9 +299,10 @@ h2 {
 
 .recipe-title {
     font-size: 1.25rem;
-    color: #333;
+    color: var(--dark-text);
     transition: color 0.2s ease;
-    font-family: "nyt-franklin", arial, helvetica, sans-serif;
+    font-family: 'Poppins', sans-serif;
+    padding: 0 1rem 1rem;
 }
 
 /* Recipe Detail */
@@ -254,6 +312,10 @@ h2 {
     align-items: center;
     max-width: 800px;
     margin: 0 auto;
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(196, 151, 111, 0.1);
 }
 
 .recipe-header {
@@ -266,6 +328,7 @@ h2 {
     font-size: 2.75rem;
     margin-bottom: 1rem;
     font-weight: normal;
+    color: var(--terracotta);
 }
 
 .recipe-image {
@@ -274,6 +337,7 @@ h2 {
     object-fit: cover;
     margin: 2rem 0;
     border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(196, 151, 111, 0.1);
 }
 
 /* Auth Pages */
@@ -281,6 +345,9 @@ h2 {
     max-width: 400px;
     margin: 60px auto;
     padding: 2rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(196, 151, 111, 0.15);
 }
 
 .auth-form {
@@ -294,7 +361,7 @@ h2 {
 }
 
 .error-message {
-    color: #e33d3d;
+    color: var(--terracotta);
     background-color: #fff2f2;
     padding: 12px;
     border-radius: 4px;
@@ -333,13 +400,15 @@ h2 {
     height: auto;
     margin: 0 auto 2rem auto;
     display: block;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(196, 151, 111, 0.15);
 }
 
 .featured-text {
-    font-family: "nyt-franklin", arial, helvetica, sans-serif;
-    font-size: 1.125rem;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.5rem;
     line-height: 1.6;
-    color: #333;
+    color: var(--dark-text);
     max-width: 600px;
     margin: 0 auto 2rem auto;
     text-align: center;
@@ -348,48 +417,54 @@ h2 {
 
 .featured-section {
     text-align: center;
-    width: 100%;  /* ensure full width */
+    width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;  /* centers the button */
+    align-items: center;
     margin: 0 auto;
 }
 
 .cta-button {
     display: inline-block;
-    font-family: "nyt-franklin", arial, helvetica, sans-serif;
+    font-family: 'Poppins', sans-serif;
     padding: 0.75rem 1.5rem;
     font-size: 0.875rem;
     font-weight: 700;
     text-transform: uppercase;
     text-decoration: none;
-    background: #e33d26;
+    background: var(--terracotta);
     color: white;
     border: none;
+    border-radius: 4px;
     transition: background-color 0.2s ease;
 }
 
 .cta-button:hover {
-    background: #c93522;
+    background: var(--deep-sand);
 }
 
 .meta-info {
-    font-family: "nyt-franklin", arial, helvetica, sans-serif;
+    font-family: 'Poppins', sans-serif;
     margin-bottom: 2rem;
     line-height: 1.6;
-    color: #333;
+    color: var(--dark-text);
 }
 
 .ingredients {
     text-align: center;
     margin: 2rem 0;
+    padding: 2rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(196, 151, 111, 0.1);
 }
 
 .ingredients h3 {
-    font-family: "nyt-franklin", arial, helvetica, sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 1.125rem;
     font-weight: 700;
     margin-bottom: 1rem;
+    color: var(--dark-text);
 }
 
 .action-buttons {
@@ -402,16 +477,17 @@ h2 {
 .empty-state {
     text-align: center;
     padding: 3rem;
-    background: #f9f9f9;
+    background: white;
     border-radius: 8px;
     width: 100%;
     grid-column: 1 / -1;
+    box-shadow: 0 2px 8px rgba(196, 151, 111, 0.1);
 }
 
 .empty-state p {
-    font-family: "nyt-franklin", arial, helvetica, sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 1.125rem;
-    color: #666;
+    color: var(--deep-sand);
     margin-bottom: 1.5rem;
 }
 
@@ -420,11 +496,11 @@ h2 {
     text-align: center;
     margin-top: 2rem;
     padding-top: 2rem;
-    border-top: 1px solid #e2e2e2;
+    border-top: 2px solid var(--desert-sand);
 }
 
 .about-me-button {
-    font-family: "nyt-franklin", arial, helvetica, sans-serif;
+    font-family: 'Poppins', sans-serif;
     padding: 0.75rem 1.5rem;
     font-size: 0.875rem;
     font-weight: 700;

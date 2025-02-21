@@ -19,7 +19,7 @@ def login_view(request):
                 login(request, user)
                 return redirect("recipes:list")
         else:
-            error_message = "ooops.. something went wrong"
+            error_message = "Username and/or Password were incorrect. Please try again."
 
     context = {"form": form, "error_message": error_message}
 

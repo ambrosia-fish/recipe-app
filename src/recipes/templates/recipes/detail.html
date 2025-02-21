@@ -10,7 +10,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>Recipes</h1>
+            <a href="{% url 'recipes:home' %}" style="text-decoration: none; color: inherit;"><h1>Gamila</h1></a>
             <div class="nav-buttons">
                 <a href="{% url 'recipes:list' %}" class="nav-button">Search</a>
                 <a href="{% url 'recipes:my_recipes' %}" class="nav-button">My Recipes</a>

@@ -1,0 +1,448 @@
+@font-face {
+    font-family: 'Azqad';
+    src: url("./fonts/Azqad.03cd6cb20b9c.ttf") format('truetype');
+}
+
+/* Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "nyt-cheltenham", georgia, "times new roman", times, serif;
+}
+
+body {
+    background-color: white;
+    padding: 2rem;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Typography */
+h1 {
+    font-family: 'Azqad', sans-serif;
+    font-size: 2.75rem;
+    font-weight: normal;
+    text-align: center;
+}
+
+h2 {
+    font-size: 2.75rem;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    font-weight: normal;
+}
+
+/* Home Page */
+.home-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #e2e2e2;
+    padding-bottom: 2rem;
+    position: relative;
+}
+
+.home-header .logo {
+    font-family: 'Azqad', sans-serif;
+    font-size: 2.75rem;
+    font-weight: normal;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.home-header .subtitle {
+    font-family: "nyt-franklin", arial, helvetica, sans-serif;
+    font-size: 1.125rem;
+    color: #666;
+}
+
+.home-header .login-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+/* Navigation Header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e2e2e2;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+}
+
+.nav-buttons {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.nav-button, .login-button {
+    font-family: "nyt-franklin", arial, helvetica, sans-serif;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    border: 1px solid #333;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    background: white;
+    color: #333;
+}
+
+.nav-button:hover, .login-button:hover {
+    background: #333;
+    color: white;
+}
+
+/* Form Styles */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    font-family: "nyt-franklin", arial, helvetica, sans-serif;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #333;
+}
+
+.form-group input,
+.form-group select {
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: "nyt-franklin", arial, helvetica, sans-serif;
+    font-size: 1rem;
+}
+
+.form-group input[type="range"] {
+    padding: 0;
+}
+
+.help-text {
+    font-size: 0.75rem;
+    color: #666;
+}
+
+.range-value {
+    text-align: center;
+    font-size: 0.875rem;
+    color: #666;
+}
+
+/* Button Styles */
+.button, .search-button, .submit-button {
+    font-family: "nyt-franklin", arial, helvetica, sans-serif;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 4px;
+    background: #333;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.button:hover, .search-button:hover, .submit-button:hover {
+    background: #555;
+}
+
+.button.primary {
+    background: #e33d26;
+    border-color: #e33d26;
+    color: white;
+}
+
+.button.primary:hover {
+    background: #c93522;
+}
+
+/* Search Section */
+.search-section {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 2rem;
+    margin-bottom: 3rem;
+}
+
+.search-form {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    align-items: end;
+}
+
+.search-form .search-button {
+    grid-column: 1 / 2;
+    margin-top: 1rem;
+}
+
+/* Analytics Section */
+.analytics-section {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 2rem;
+    margin-bottom: 3rem;
+}
+
+.analytics-form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+}
+
+.analytics-form .submit-button {
+    grid-column: 1 / 2;
+    margin-top: 1rem;
+}
+
+.chart-container {
+    margin-top: 3rem;
+    text-align: center;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.chart-container img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Recipe Grid */
+.recipe-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 1rem 0;
+}
+
+.recipe-card {
+    text-decoration: none;
+    color: inherit;
+}
+
+.recipe-card:hover .recipe-title {
+    color: #e33d26;
+}
+
+.recipe-card img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    margin-bottom: 1rem;
+}
+
+.recipe-title {
+    font-size: 1.25rem;
+    color: #333;
+    transition: color 0.2s ease;
+    font-family: "nyt-franklin", arial, helvetica, sans-serif;
+}
+
+/* Recipe Detail */
+.recipe-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.recipe-header {
+    max-width: 800px;
+    text-align: center;
+    margin: 0 auto 2rem auto;
+}
+
+.recipe-header h2 {
+    font-size: 2.75rem;
+    margin-bottom: 1rem;
+    font-weight: normal;
+}
+
+.recipe-image {
+    width: 100%;
+    max-height: 500px;
+    object-fit: cover;
+    margin: 2rem 0;
+    border-radius: 8px;
+}
+
+/* Auth Pages */
+.auth-container {
+    max-width: 400px;
+    margin: 60px auto;
+    padding: 2rem;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.auth-form .submit-button {
+    margin-top: 1rem;
+}
+
+.error-message {
+    color: #e33d3d;
+    background-color: #fff2f2;
+    padding: 12px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    h1, h2, .logo {
+        font-size: 2rem;
+    }
+    
+    .subtitle {
+        font-size: 1rem;
+    }
+    
+    .search-form {
+        grid-template-columns: 1fr;
+    }
+    
+    .analytics-form {
+        grid-template-columns: 1fr;
+    }
+    
+    .recipe-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1.5rem;
+    }
+}
+
+/* Fix for home page hero section */
+.hero-image {
+    width: 100%;
+    max-width: 1000px;
+    height: auto;
+    margin: 0 auto 2rem auto;
+    display: block;
+}
+
+.featured-text {
+    font-family: "nyt-franklin", arial, helvetica, sans-serif;
+    font-size: 1.125rem;
+    line-height: 1.6;
+    color: #333;
+    max-width: 600px;
+    margin: 0 auto 2rem auto;
+    text-align: center;
+    align-items: center;
+}
+
+.featured-section {
+    text-align: center;
+    width: 100%;  /* ensure full width */
+    display: flex;
+    flex-direction: column;
+    align-items: center;  /* centers the button */
+    margin: 0 auto;
+}
+
+.cta-button {
+    display: inline-block;
+    font-family: "nyt-franklin", arial, helvetica, sans-serif;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-decoration: none;
+    background: #e33d26;
+    color: white;
+    border: none;
+    transition: background-color 0.2s ease;
+}
+
+.cta-button:hover {
+    background: #c93522;
+}
+
+.meta-info {
+    font-family: "nyt-franklin", arial, helvetica, sans-serif;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+    color: #333;
+}
+
+.ingredients {
+    text-align: center;
+    margin: 2rem 0;
+}
+
+.ingredients h3 {
+    font-family: "nyt-franklin", arial, helvetica, sans-serif;
+    font-size: 1.125rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 3rem;
+    background: #f9f9f9;
+    border-radius: 8px;
+    width: 100%;
+    grid-column: 1 / -1;
+}
+
+.empty-state p {
+    font-family: "nyt-franklin", arial, helvetica, sans-serif;
+    font-size: 1.125rem;
+    color: #666;
+    margin-bottom: 1.5rem;
+}
+
+/* Footer Styles */
+.footer {
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid #e2e2e2;
+}
+
+.about-me-button {
+    font-family: "nyt-franklin", arial, helvetica, sans-serif;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-decoration: none;
+    background: #333;
+    color: white;
+    border: none;
+    transition: background-color 0.2s ease;
+}
+
+.about-me-button:hover {
+    background: #555;
+}
