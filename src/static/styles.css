@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
 :root {
     --desert-sand: #E5B796;
     --deep-sand: #C4976F;
@@ -13,17 +15,12 @@
     src: url('./fonts/Azqad.ttf') format('truetype');
 }
 
-@font-face {
-    font-family: 'Roysid';
-    src: url('./fonts/Rosyid.ttf') format('truetype');
-}
-
 /* Base Styles */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Roysid', sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 body {
@@ -77,8 +74,8 @@ h2 {
 }
 
 .home-header .subtitle {
-    font-family: 'Roysid', sans-serif;
-    font-size: 1.125rem;
+    font-family: 'Poppins', sans-serif;
+    font-size: .75rem;
     color: var(--deep-blue);
 }
 
@@ -105,7 +102,7 @@ h2 {
 }
 
 .nav-button, .login-button {
-    font-family: 'Azqad', sans-serif;
+    font-family: 'Poppins', sans-serif;
     padding: 0.75rem 1.5rem;
     font-size: 0.875rem;
     font-weight: 700;
@@ -133,7 +130,7 @@ h2 {
 }
 
 .form-group label {
-    font-family: 'Roysid', sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 0.875rem;
     font-weight: 700;
     color: var(--dark-text);
@@ -144,7 +141,7 @@ h2 {
     padding: 0.75rem;
     border: 1px solid var(--desert-sand);
     border-radius: 4px;
-    font-family: 'Roysid', sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 1rem;
     transition: all 0.2s ease;
 }
@@ -173,7 +170,7 @@ h2 {
 
 /* Button Styles */
 .button, .search-button, .submit-button {
-    font-family: 'Azqad', sans-serif;
+    font-family: 'Poppins', sans-serif;
     padding: 0.75rem 1.5rem;
     font-size: 0.875rem;
     font-weight: 700;
@@ -295,7 +292,7 @@ h2 {
     font-size: 1.25rem;
     color: var(--dark-text);
     transition: color 0.2s ease;
-    font-family: 'Roysid', sans-serif;
+    font-family: 'Poppins', sans-serif;
     padding: 0 1rem 1rem;
 }
 
@@ -399,7 +396,7 @@ h2 {
 }
 
 .featured-text {
-    font-family: 'Roysid', sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 1.5rem;
     line-height: 1.6;
     color: var(--dark-text);
@@ -420,7 +417,7 @@ h2 {
 
 .cta-button {
     display: inline-block;
-    font-family: 'Azqad', sans-serif;
+    font-family: 'Poppins', sans-serif;
     padding: 0.75rem 1.5rem;
     font-size: 0.875rem;
     font-weight: 700;
@@ -438,7 +435,7 @@ h2 {
 }
 
 .meta-info {
-    font-family: 'Roysid', sans-serif;
+    font-family: 'Poppins', sans-serif;
     margin-bottom: 2rem;
     line-height: 1.6;
     color: var(--dark-text);
@@ -454,7 +451,7 @@ h2 {
 }
 
 .ingredients h3 {
-    font-family: 'Roysid', sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 1.125rem;
     font-weight: 700;
     margin-bottom: 1rem;
@@ -479,7 +476,7 @@ h2 {
 }
 
 .empty-state p {
-    font-family: 'Roysid', sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 1.125rem;
     color: var(--deep-sand);
     margin-bottom: 1.5rem;
@@ -494,7 +491,7 @@ h2 {
 }
 
 .about-me-button {
-    font-family: 'Azqad', sans-serif;
+    font-family: 'Poppins', sans-serif;
     padding: 0.75rem 1.5rem;
     font-size: 0.875rem;
     font-weight: 700;
