@@ -36,8 +36,8 @@
         <!-- Add Guest Login Form -->
         <form action="" method="POST" class="auth-form">
             {% csrf_token %}
-            <input type="hidden" name="username" value="guest">
-            <input type="hidden" name="password" value="guest-pass">
+            <input type="hidden" name="username" value="Guest">
+            <input type="hidden" name="password" value="GuestPassword">
             <button type="submit" class="submit-button">Login as Guest</button>
         </form>
     </div>

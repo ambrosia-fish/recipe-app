@@ -85,6 +85,15 @@ h2 {
     right: 0;
 }
 
+.logo-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.logo-link:hover {
+    cursor: pointer;
+}
+
 /* Navigation Header */
 .header {
     display: flex;
