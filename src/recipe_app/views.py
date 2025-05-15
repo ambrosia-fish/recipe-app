@@ -28,7 +28,7 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
-    return redirect("success")
+    return redirect("recipes:list")  # Redirect to recipe list instead of success page
 
 
 def success_view(request):
