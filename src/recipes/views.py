@@ -1,8 +1,6 @@
-# src/recipes/views.py
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, TemplateView
 from .models import Recipe
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from .forms import RecipesSearchForm, RecipeAnalyticsForm
@@ -10,7 +8,7 @@ from .utils import create_chart
 from django.http import JsonResponse
 
 
-class RecipeListView(LoginRequiredMixin, ListView):
+class RecipeListView(ListView):
     model = Recipe
     template_name = "recipes/main.html"
 
@@ -57,12 +55,12 @@ class RecipeListView(LoginRequiredMixin, ListView):
         return queryset
 
 
-class RecipeDetailView(LoginRequiredMixin, DetailView):
+class RecipeDetailView(DetailView):
     model = Recipe
     template_name = "recipes/detail.html"
 
 
-class RecipeAnalyticsView(LoginRequiredMixin, TemplateView):
+class RecipeAnalyticsView(TemplateView):
     template_name = "recipes/analytics.html"
 
     def get_context_data(self, **kwargs):
@@ -92,8 +90,11 @@ def recipe_home(request):
     return render(request, "recipes/recipes_home.html")
 
 
-@login_required
 def save_recipe(request, recipe_id):
+    # Check if user is authenticated before saving
+    if not request.user.is_authenticated:
+        return JsonResponse({"status": "error", "message": "Please login to save recipes"})
+    
     recipe = Recipe.objects.get(id=recipe_id)
     if recipe in request.user.saved_recipes.all():
         request.user.saved_recipes.remove(recipe)
@@ -104,5 +105,10 @@ def save_recipe(request, recipe_id):
 
 
 def my_recipes(request):
+    # Check if user is authenticated
+    if not request.user.is_authenticated:
+        # Return empty list for non-authenticated users
+        return render(request, "recipes/my_recipes.html", {"recipes": []})
+    
     saved_recipes = request.user.saved_recipes.all()
     return render(request, "recipes/my_recipes.html", {"recipes": saved_recipes})
