@@ -1,1 +1,1 @@
-web: cd src && gunicorn recipe_app.wsgi:application --workers=1 --threads=2 --timeout=30 --max-requests=50 --max-requests-jitter=10
+web: cd src && python manage.py check --database default && gunicorn recipe_app.wsgi:application --worker-class=gevent --workers=1 --threads=2 --timeout=30 --max-requests=20 --max-requests-jitter=5
