@@ -82,10 +82,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "recipe_app.wsgi.application"
 
-# CRITICAL CHANGE: Use SQLite for local development, only use PostgreSQL in production if available
-# This will allow your app to work even if Neon is having issues
-
-# Default to SQLite for development/testing
+# Database Configuration - MongoDB Support
+# Default to SQLite for local development
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -93,8 +91,31 @@ DATABASES = {
     }
 }
 
-# Try to use PostgreSQL if DATABASE_URL is set and we're in production
-if not DEBUG and os.environ.get('DATABASE_URL'):
+# Use MongoDB if MONGODB_URI is set
+if os.environ.get('MONGODB_URI'):
+    try:
+        DATABASES = {
+            'default': {
+                'ENGINE': 'djongo',
+                'NAME': os.environ.get('MONGODB_NAME', 'recipedb'),
+                'CLIENT': {
+                    'host': os.environ.get('MONGODB_URI'),
+                    'username': os.environ.get('MONGODB_USERNAME'),
+                    'password': os.environ.get('MONGODB_PASSWORD'),
+                    'authSource': os.environ.get('MONGODB_AUTH_SOURCE', 'admin'),
+                    'authMechanism': 'SCRAM-SHA-1',
+                    'connectTimeoutMS': 5000,  # 5 second connection timeout
+                    'socketTimeoutMS': 10000,  # 10 second socket timeout
+                    'retryWrites': True,
+                    'w': 'majority',
+                }
+            }
+        }
+        print("Using MongoDB database", file=sys.stderr)
+    except Exception as e:
+        print(f"Error setting up MongoDB, falling back to SQLite: {str(e)}", file=sys.stderr)
+# Or try PostgreSQL if DATABASE_URL is set
+elif os.environ.get('DATABASE_URL'):
     try:
         # Configure PostgreSQL with minimal connections
         db_config = dj_database_url.config(
@@ -119,8 +140,7 @@ if not DEBUG and os.environ.get('DATABASE_URL'):
         DATABASES['default'] = db_config
         print("Using PostgreSQL database", file=sys.stderr)
     except Exception as e:
-        print(f"Error connecting to PostgreSQL, falling back to SQLite: {str(e)}", file=sys.stderr)
-
+        print(f"Error connecting to PostgreSQL, using SQLite: {str(e)}", file=sys.stderr)
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = "static/"
