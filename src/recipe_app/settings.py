@@ -85,9 +85,7 @@ WSGI_APPLICATION = "recipe_app.wsgi.application"
 DATABASES = {
     'default': dj_database_url.config(
         default=os.environ.get('DATABASE_URL'),
-        conn_max_age=600,
-        connect_timeout=10,  # Add timeout for connections
-        options='-c statement_timeout=30000'  # Statement timeout in ms
+        conn_max_age=600
     )
 }
 
