@@ -82,20 +82,34 @@ TEMPLATES = [
 WSGI_APPLICATION = "recipe_app.wsgi.application"
 
 # Database configuration
-# Modified for better performance with Neon Postgres
+# Modified for Neon PostgreSQL with specific connection limits
+# Single persistent connection with a short lifetime
 db_config = dj_database_url.config(
     default=os.environ.get('DATABASE_URL'),
-    conn_max_age=300,  # Reduced from 600 to avoid long-lived connections
+    conn_max_age=60,  # Short connection lifetime
 )
 
 # Add options for performance
 db_config['OPTIONS'] = {
     'connect_timeout': 10,
-    'options': '-c statement_timeout=15000'  # 15 second timeout for queries
+    'options': '-c statement_timeout=15000',  # 15 second timeout for queries
 }
+
+# Set a VERY small connection pool for Neon's free tier connection limits
+db_config['CONN_MAX_AGE'] = 60
+db_config['CONN_HEALTH_CHECKS'] = True
 
 DATABASES = {
     'default': db_config
+}
+
+# This is critical for Neon's free tier!
+# It strictly limits the number of database connections
+DATABASE_CONNECTION_POOL_SETTINGS = {
+    'max_overflow': 0,  # No additional connections allowed
+    'pool_size': 1,     # Only one connection in the pool
+    'recycle': 60,      # Recycle connections after 60 seconds
+    'pool_timeout': 30, # Wait at most 30 seconds for a connection
 }
 
 # Security settings for production
