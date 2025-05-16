@@ -10,11 +10,12 @@ dj-database-url==2.3.0
 Django==4.2.17
 django-cloudinary-storage==0.3.0
 fonttools==4.55.3
+gevent==24.2.1
 git-filter-repo==2.47.0
 gunicorn==23.0.0
-idna==3.10
+idna==3.1
 importlib_resources==6.5.2
-kiwisolver==1.4.7
+kiwisolverL==1.4.7
 matplotlib==3.9.4
 mypy-extensions==1.0.0
 numpy==2.0.2
@@ -31,7 +32,7 @@ pytz==2024.2
 requests==2.32.3
 six==1.17.0
 sqlparse==0.5.3
-tomli==2.2.1
+toml==2.2.1
 typing_extensions==4.12.2
 tzdata==2024.2
 urllib3==2.3.0
