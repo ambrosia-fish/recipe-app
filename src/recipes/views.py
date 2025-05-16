@@ -6,11 +6,15 @@ from django.db.models import Q
 from .forms import RecipesSearchForm, RecipeAnalyticsForm
 from .utils import create_chart
 from django.http import JsonResponse
+import logging
 
+# Set up logging
+logger = logging.getLogger(__name__)
 
 class RecipeListView(ListView):
     model = Recipe
     template_name = "recipes/main.html"
+    paginate_by = 20  # Added pagination
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -21,38 +25,42 @@ class RecipeListView(ListView):
         return self.get(request, *args, **kwargs)
 
     def get_queryset(self):
-        queryset = Recipe.objects.all()
+        # Start with a limited queryset to avoid huge result sets
+        queryset = Recipe.objects.all()[:200]  
 
         if self.request.method == "POST":
             form = RecipesSearchForm(self.request.POST)
             if form.is_valid():
+                # Apply filters with limits
                 recipe_title = form.cleaned_data.get("recipe_title")
                 recipe_ingredients = form.cleaned_data.get("recipe_ingredients")
                 difficulty_level = form.cleaned_data.get("difficulty_level")
-                cooking_time = form.cleaned_data[
-                    "cooking_time"
-                ]  # Will always have a value
+                cooking_time = form.cleaned_data.get("cooking_time", 300)  # Default to 5 hours max
 
+                # Apply each filter separately and carefully
                 if difficulty_level:
                     queryset = queryset.filter(difficulty__lte=difficulty_level)
-
-                queryset = queryset.filter(cooking_time__lte=cooking_time)
-
+                    
+                # Limit cooking time results
+                queryset = queryset.filter(cooking_time__lte=min(cooking_time, 300))  # Cap at 5 hours
+                    
                 if recipe_title:
                     queryset = queryset.filter(name__icontains=recipe_title)
-
+                    
                 if recipe_ingredients:
+                    # Simplify ingredient filtering and limit to first 3 ingredients
                     ingredients_list = [
-                        ing.strip()
-                        for ing in recipe_ingredients.split(",")
+                        ing.strip() 
+                        for ing in recipe_ingredients.split(",") 
                         if ing.strip()
-                    ]
-                    ingredients_query = Q()
+                    ][:3]  # Limit to first 3 ingredients for performance
+                    
+                    # Use a simpler approach to filtering - one by one
                     for ingredient in ingredients_list:
-                        ingredients_query |= Q(ingredients__icontains=ingredient)
-                    queryset = queryset.filter(ingredients_query)
-
-        return queryset
+                        queryset = queryset.filter(ingredients__icontains=ingredient)
+        
+        # Final safety limit
+        return queryset[:100]  # Always limit results
 
 
 class RecipeDetailView(DetailView):
@@ -76,8 +84,8 @@ class RecipeAnalyticsView(TemplateView):
             chart_type = form.cleaned_data.get("chart_type")
             analysis_type = form.cleaned_data.get("analysis_type")
 
-            # Get all recipes
-            recipes = Recipe.objects.all()
+            # Get recipes with a limit for performance
+            recipes = Recipe.objects.all()[:100]
 
             if recipes:
                 chart = create_chart(chart_type, recipes, analysis_type)
@@ -93,15 +101,24 @@ def recipe_home(request):
 def save_recipe(request, recipe_id):
     # Check if user is authenticated before saving
     if not request.user.is_authenticated:
-        return JsonResponse({"status": "error", "message": "Please login to save recipes"})
+        return JsonResponse({
+            "status": "error", 
+            "message": "Authentication is currently disabled. Recipe saving is unavailable."
+        })
     
-    recipe = Recipe.objects.get(id=recipe_id)
-    if recipe in request.user.saved_recipes.all():
-        request.user.saved_recipes.remove(recipe)
-        return JsonResponse({"status": "removed"})
-    else:
-        request.user.saved_recipes.add(recipe)
-        return JsonResponse({"status": "saved"})
+    try:
+        recipe = Recipe.objects.get(id=recipe_id)
+        if recipe in request.user.saved_recipes.all():
+            request.user.saved_recipes.remove(recipe)
+            return JsonResponse({"status": "removed"})
+        else:
+            request.user.saved_recipes.add(recipe)
+            return JsonResponse({"status": "saved"})
+    except Recipe.DoesNotExist:
+        return JsonResponse({"status": "error", "message": "Recipe not found"})
+    except Exception as e:
+        logger.error(f"Error saving recipe: {str(e)}")
+        return JsonResponse({"status": "error", "message": "An error occurred"})
 
 
 def my_recipes(request):
@@ -110,5 +127,5 @@ def my_recipes(request):
         # Return empty list for non-authenticated users
         return render(request, "recipes/my_recipes.html", {"recipes": []})
     
-    saved_recipes = request.user.saved_recipes.all()
+    saved_recipes = request.user.saved_recipes.all()[:50]  # Limit for performance
     return render(request, "recipes/my_recipes.html", {"recipes": saved_recipes})
