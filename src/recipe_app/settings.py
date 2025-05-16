@@ -33,7 +33,7 @@ ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',') if os.getenv('ALLOWED_
 
 # Add default hosts if needed
 if not ALLOWED_HOSTS:
-    ALLOWED_HOSTS = ['recipes-app-ameur-216332e6b9a9.herokuapp.com', 'localhost', '127.0.0.1']
+    ALLOWED_HOSTS = ['gamila.feztech.io', 'localhost', '127.0.0.1', '.herokuapp.com']
 
 # Application definition
 INSTALLED_APPS = [
@@ -82,12 +82,26 @@ TEMPLATES = [
 WSGI_APPLICATION = "recipe_app.wsgi.application"
 
 # Database configuration
-DATABASES = {
-    'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_URL'),
-        conn_max_age=600
-    )
+# Modified for better performance with Neon Postgres
+db_config = dj_database_url.config(
+    default=os.environ.get('DATABASE_URL'),
+    conn_max_age=300,  # Reduced from 600 to avoid long-lived connections
+)
+
+# Add options for performance
+db_config['OPTIONS'] = {
+    'connect_timeout': 10,
+    'options': '-c statement_timeout=15000'  # 15 second timeout for queries
 }
+
+DATABASES = {
+    'default': db_config
+}
+
+# Security settings for production
+if not DEBUG:
+    # Add SSL requirement for production
+    db_config['OPTIONS']['sslmode'] = 'require'
 
 
 # Password validation, Internationalization, etc. remain the same as in your original file
@@ -117,7 +131,3 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # AUTH
 LOGIN_URL = "/login/"
-
-# Security settings for production
-if not DEBUG:
-    DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
