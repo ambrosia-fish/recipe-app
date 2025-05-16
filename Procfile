@@ -1,1 +1,1 @@
-web: cd src && gunicorn recipe_app.wsgi:application --workers=2 --threads=2 --timeout=30 --max-requests=1000 --max-requests-jitter=50
+web: cd src && gunicorn recipe_app.wsgi:application --workers=1 --threads=2 --timeout=30 --max-requests=50 --max-requests-jitter=10
