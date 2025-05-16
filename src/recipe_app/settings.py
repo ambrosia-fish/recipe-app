@@ -82,65 +82,29 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "recipe_app.wsgi.application"
 
-# Database Configuration - MongoDB Support
-# Default to SQLite for local development
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+# Database Configuration - Only using Neon PostgreSQL
+if not os.environ.get('DATABASE_URL'):
+    # If DATABASE_URL is not set, raise an error
+    raise Exception("DATABASE_URL environment variable is required for connection to Neon PostgreSQL")
+
+# Configure PostgreSQL connection with connection pooling and retry logic
+db_config = dj_database_url.config(
+    default=os.environ.get('DATABASE_URL'),
+    conn_max_age=0,  # Close connections after each request to avoid rate limits
+    ssl_require=True,
+)
+
+# Add options for minimal connections and fast timeouts
+db_config['OPTIONS'] = {
+    'connect_timeout': 10,  # 10 second connection timeout
+    'options': '-c statement_timeout=15000',  # 15 second query timeout
+    'sslmode': 'require',
 }
 
-# Use MongoDB if MONGODB_URI is set
-if os.environ.get('MONGODB_URI'):
-    try:
-        DATABASES = {
-            'default': {
-                'ENGINE': 'djongo',
-                'NAME': os.environ.get('MONGODB_NAME', 'recipedb'),
-                'CLIENT': {
-                    'host': os.environ.get('MONGODB_URI'),
-                    'username': os.environ.get('MONGODB_USERNAME'),
-                    'password': os.environ.get('MONGODB_PASSWORD'),
-                    'authSource': os.environ.get('MONGODB_AUTH_SOURCE', 'admin'),
-                    'authMechanism': 'SCRAM-SHA-1',
-                    'connectTimeoutMS': 5000,  # 5 second connection timeout
-                    'socketTimeoutMS': 10000,  # 10 second socket timeout
-                    'retryWrites': True,
-                    'w': 'majority',
-                }
-            }
-        }
-        print("Using MongoDB database", file=sys.stderr)
-    except Exception as e:
-        print(f"Error setting up MongoDB, falling back to SQLite: {str(e)}", file=sys.stderr)
-# Or try PostgreSQL if DATABASE_URL is set
-elif os.environ.get('DATABASE_URL'):
-    try:
-        # Configure PostgreSQL with minimal connections
-        db_config = dj_database_url.config(
-            default=os.environ.get('DATABASE_URL'),
-            conn_max_age=20,  # Very short connection lifetime
-            ssl_require=True,
-        )
-        
-        # Add options for minimal connections and fast timeouts
-        db_config['OPTIONS'] = {
-            'connect_timeout': 5,  # 5 second connection timeout
-            'options': '-c statement_timeout=10000',  # 10 second query timeout
-            'sslmode': 'require',
-        }
-        
-        # Test the database connection before applying the settings
-        import psycopg2
-        conn = psycopg2.connect(os.environ.get('DATABASE_URL'))
-        conn.close()
-        
-        # Only update DATABASES if connection test passed
-        DATABASES['default'] = db_config
-        print("Using PostgreSQL database", file=sys.stderr)
-    except Exception as e:
-        print(f"Error connecting to PostgreSQL, using SQLite: {str(e)}", file=sys.stderr)
+# Apply the database configuration
+DATABASES = {
+    'default': db_config
+}
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = "static/"
