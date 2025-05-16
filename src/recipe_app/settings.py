@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 import os
+import sys
 from pathlib import Path
 import dj_database_url
 from dotenv import load_dotenv
@@ -81,44 +82,45 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "recipe_app.wsgi.application"
 
-# Database configuration
-# Modified for Neon PostgreSQL with specific connection limits
-# Single persistent connection with a short lifetime
-db_config = dj_database_url.config(
-    default=os.environ.get('DATABASE_URL'),
-    conn_max_age=60,  # Short connection lifetime
-)
+# CRITICAL CHANGE: Use SQLite for local development, only use PostgreSQL in production if available
+# This will allow your app to work even if Neon is having issues
 
-# Add options for performance
-db_config['OPTIONS'] = {
-    'connect_timeout': 10,
-    'options': '-c statement_timeout=15000',  # 15 second timeout for queries
-}
-
-# Set a VERY small connection pool for Neon's free tier connection limits
-db_config['CONN_MAX_AGE'] = 60
-db_config['CONN_HEALTH_CHECKS'] = True
-
+# Default to SQLite for development/testing
 DATABASES = {
-    'default': db_config
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
 }
 
-# This is critical for Neon's free tier!
-# It strictly limits the number of database connections
-DATABASE_CONNECTION_POOL_SETTINGS = {
-    'max_overflow': 0,  # No additional connections allowed
-    'pool_size': 1,     # Only one connection in the pool
-    'recycle': 60,      # Recycle connections after 60 seconds
-    'pool_timeout': 30, # Wait at most 30 seconds for a connection
-}
+# Try to use PostgreSQL if DATABASE_URL is set and we're in production
+if not DEBUG and os.environ.get('DATABASE_URL'):
+    try:
+        # Configure PostgreSQL with minimal connections
+        db_config = dj_database_url.config(
+            default=os.environ.get('DATABASE_URL'),
+            conn_max_age=20,  # Very short connection lifetime
+            ssl_require=True,
+        )
+        
+        # Add options for minimal connections and fast timeouts
+        db_config['OPTIONS'] = {
+            'connect_timeout': 5,  # 5 second connection timeout
+            'options': '-c statement_timeout=10000',  # 10 second query timeout
+            'sslmode': 'require',
+        }
+        
+        # Test the database connection before applying the settings
+        import psycopg2
+        conn = psycopg2.connect(os.environ.get('DATABASE_URL'))
+        conn.close()
+        
+        # Only update DATABASES if connection test passed
+        DATABASES['default'] = db_config
+        print("Using PostgreSQL database", file=sys.stderr)
+    except Exception as e:
+        print(f"Error connecting to PostgreSQL, falling back to SQLite: {str(e)}", file=sys.stderr)
 
-# Security settings for production
-if not DEBUG:
-    # Add SSL requirement for production
-    db_config['OPTIONS']['sslmode'] = 'require'
-
-
-# Password validation, Internationalization, etc. remain the same as in your original file
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = "static/"
