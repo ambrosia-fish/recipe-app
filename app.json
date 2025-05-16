@@ -1,0 +1,47 @@
+{
+  "name": "Recipe App",
+  "description": "A Django recipe application",
+  "repository": "https://github.com/ambrosia-fish/recipe-app",
+  "keywords": ["python", "django", "recipes"],
+  "env": {
+    "DJANGO_SECRET_KEY": {
+      "description": "A secret key for Django",
+      "generator": "secret"
+    },
+    "DJANGO_DEBUG": {
+      "description": "Enable debug mode",
+      "value": "False"
+    },
+    "DATABASE_URL": {
+      "description": "The URL for your PostgreSQL database"
+    },
+    "WEB_CONCURRENCY": {
+      "description": "The number of Gunicorn workers to run",
+      "value": "1"
+    },
+    "CLOUDINARY_CLOUD_NAME": {
+      "description": "Cloudinary cloud name",
+      "required": false
+    },
+    "CLOUDINARY_API_KEY": {
+      "description": "Cloudinary API key",
+      "required": false
+    },
+    "CLOUDINARY_API_SECRET": {
+      "description": "Cloudinary API secret",
+      "required": false
+    }
+  },
+  "addons": [],
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    }
+  ],
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "basic"
+    }
+  }
+}
