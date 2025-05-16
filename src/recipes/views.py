@@ -8,14 +8,19 @@ from .utils import create_chart
 from django.http import JsonResponse
 import logging
 import time
+from django.core.cache import cache
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
 
 # Set up logging
 logger = logging.getLogger(__name__)
 
+# Apply cache to the recipe list view (2 minute cache)
+@method_decorator(cache_page(120), name='dispatch')
 class RecipeListView(ListView):
     model = Recipe
     template_name = "recipes/main.html"
-    paginate_by = 12  # Reduced pagination for better performance
+    paginate_by = None  # Disable pagination to avoid extra queries
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -26,10 +31,22 @@ class RecipeListView(ListView):
         return self.get(request, *args, **kwargs)
 
     def get_queryset(self):
-        # First, attempt to limit everything for performance
+        # Use cache if possible to avoid database hits
+        cache_key = 'recipe_list'
+        
+        if self.request.method == "POST":
+            cache_key = 'recipe_search_' + str(hash(frozenset(self.request.POST.items())))
+        
+        queryset = cache.get(cache_key)
+        
+        if queryset is not None:
+            logger.debug(f"Using cached queryset for {cache_key}")
+            return queryset
+            
+        # If not in cache, get from database with strict limits
         try:
             # Start with a very limited queryset
-            queryset = Recipe.objects.all()[:20]  # Even more strict limit
+            queryset = list(Recipe.objects.all()[:20])  # Convert to list to avoid future queries
 
             if self.request.method == "POST":
                 form = RecipesSearchForm(self.request.POST)
@@ -40,35 +57,40 @@ class RecipeListView(ListView):
                     difficulty_level = form.cleaned_data.get("difficulty_level")
                     cooking_time = form.cleaned_data.get("cooking_time", 120)  # Default to 2 hours max
 
-                    # Apply each filter carefully and with timeouts
-                    if difficulty_level:
-                        queryset = queryset.filter(difficulty__lte=difficulty_level)
-                        
-                    # Stricter cooking time limit
-                    queryset = queryset.filter(cooking_time__lte=min(cooking_time, 120))
-                        
-                    if recipe_title:
-                        queryset = queryset.filter(name__icontains=recipe_title)
-                        
-                    if recipe_ingredients:
-                        # Only use the first ingredient for better performance
-                        ingredients_list = [
-                            ing.strip() 
-                            for ing in recipe_ingredients.split(",") 
-                            if ing.strip()
-                        ][:1]  # Limit to first ingredient only
-                        
-                        if ingredients_list:
-                            queryset = queryset.filter(ingredients__icontains=ingredients_list[0])
+                    # Apply filters to the in-memory list to avoid database queries
+                    filtered_queryset = []
+                    for recipe in queryset:
+                        # Apply difficulty filter
+                        if difficulty_level and recipe.difficulty > difficulty_level:
+                            continue
+                            
+                        # Apply cooking time filter
+                        if recipe.cooking_time > min(cooking_time, 120):
+                            continue
+                            
+                        # Apply title filter
+                        if recipe_title and recipe_title.lower() not in recipe.name.lower():
+                            continue
+                            
+                        # Apply ingredients filter
+                        if recipe_ingredients:
+                            ingredients_list = [ing.strip() for ing in recipe_ingredients.split(",") if ing.strip()][:1]
+                            if ingredients_list and not any(ing.lower() in recipe.ingredients.lower() for ing in ingredients_list):
+                                continue
+                                
+                        filtered_queryset.append(recipe)
+                    
+                    queryset = filtered_queryset[:20]  # Apply final limit
             
-            # Final safety limit
-            return queryset[:20]  # Very strict limit
+            # Cache the result for 2 minutes
+            cache.set(cache_key, queryset, 120)
+            return queryset
             
         except Exception as e:
             # Log any database errors
             logger.error(f"Database error in get_queryset: {str(e)}")
             # Return empty queryset as fallback
-            return Recipe.objects.none()
+            return []
 
 
 class RecipeDetailView(DetailView):
@@ -77,8 +99,20 @@ class RecipeDetailView(DetailView):
 
     def get_object(self, queryset=None):
         try:
-            # Add a small timeout for database queries
-            return super().get_object(queryset)
+            # Check cache first
+            cache_key = f'recipe_detail_{self.kwargs["pk"]}'
+            cached_object = cache.get(cache_key)
+            
+            if cached_object:
+                return cached_object
+                
+            # If not in cache, get from database
+            obj = super().get_object(queryset)
+            
+            # Cache for 2 minutes
+            cache.set(cache_key, obj, 120)
+            return obj
+            
         except Exception as e:
             logger.error(f"Error retrieving recipe: {str(e)}")
             # Return None, template will handle this gracefully
@@ -103,7 +137,7 @@ class RecipeAnalyticsView(TemplateView):
 
             try:
                 # Get recipes with stricter limit
-                recipes = Recipe.objects.all()[:20]
+                recipes = Recipe.objects.all()[:15]
 
                 if recipes:
                     chart = create_chart(chart_type, recipes, analysis_type)
